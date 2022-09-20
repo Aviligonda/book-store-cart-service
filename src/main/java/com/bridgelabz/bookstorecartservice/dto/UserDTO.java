@@ -5,6 +5,12 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+/**
+ * Purpose : UserDTO fields are Used Retrieve the data from User service
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 
 @Data
 public class UserDTO {

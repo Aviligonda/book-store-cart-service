@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Purpose :Return Book Status
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

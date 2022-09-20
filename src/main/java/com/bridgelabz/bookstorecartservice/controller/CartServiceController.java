@@ -38,14 +38,24 @@ public class CartServiceController {
         Response response = cartService.addCart(token, cartServiceDTO, bookId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    /**
+     * Purpose :  Removing Cart
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param : token,cartId
+     */
     @DeleteMapping("removingCart/{cartId}")
     public ResponseEntity<Response> removingCart(@RequestHeader String token,
                                                  @PathVariable Long cartId) {
         Response response = cartService.removingCart(token, cartId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    /**
+     * Purpose : Update Quantity
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param : token,cartId,quantity
+     */
     @PutMapping("updateQuantity/{cartId}")
     public ResponseEntity<Response> updateQuantity(@RequestHeader String token,
                                                    @PathVariable Long cartId,
@@ -53,14 +63,23 @@ public class CartServiceController {
         Response response = cartService.updateQuantity(token, cartId, quantity);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    /**
+     * Purpose :  Get all Cart items for particular user
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param : token
+     */
     @GetMapping("/getAllCartItemsForUser")
-    public ResponseEntity<List<?>> getAllCartItemsForUser(@RequestHeader String token
-    ) {
+    public ResponseEntity<List<?>> getAllCartItemsForUser(@RequestHeader String token) {
         List<CartServiceModel> response = cartService.getAllCartItemsForUser(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    /**
+     * Purpose :  Get All Cart items
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param :
+     */
     @GetMapping("/getAllCartItems")
     public ResponseEntity<List<?>> getAllCartItems() {
         List<CartServiceModel> response = cartService.getAllCartItems();

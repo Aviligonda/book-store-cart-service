@@ -4,7 +4,12 @@ import com.bridgelabz.bookstorecartservice.dto.CartServiceDTO;
 import lombok.Data;
 
 import javax.persistence.*;
-
+/**
+ * Purpose : CartServiceModel Are Used Create A table and connection to Database
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 @Data
 @Entity
 @Table(name = "cart")

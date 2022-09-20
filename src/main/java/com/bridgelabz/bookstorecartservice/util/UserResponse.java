@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Purpose :Return User Status
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

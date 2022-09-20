@@ -15,6 +15,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Purpose : CartService to Implement the Business Logic
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 @Service
 public class CartService implements ICartService {
     @Autowired
@@ -26,6 +32,12 @@ public class CartService implements ICartService {
     @Autowired
     RestTemplate restTemplate;
 
+    /**
+     * Purpose : Implement the Logic of Add Cart
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param :  cartServiceDTO,token,bookId
+     */
     @Override
     public Response addCart(String token, CartServiceDTO cartServiceDTO, Long bookId) {
         UserResponse isUserPresent = restTemplate.getForObject("http://BS-USER-SERVICE:8080/userService/userVerification/" + token, UserResponse.class);
@@ -49,6 +61,12 @@ public class CartService implements ICartService {
         return null;
     }
 
+    /**
+     * Purpose : Implement the Logic of Removing Cart item
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param :  cartId,token
+     */
     @Override
     public Response removingCart(String token, Long cartId) {
         UserResponse isUserPresent = restTemplate.getForObject("http://BS-USER-SERVICE:8080/userService/userVerification/" + token, UserResponse.class);
@@ -66,6 +84,12 @@ public class CartService implements ICartService {
         return null;
     }
 
+    /**
+     * Purpose : Implement the Logic of Update quantity
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param :  cartId,token,quantity
+     */
     @Override
     public Response updateQuantity(String token, Long cartId, Long quantity) {
         UserResponse isUserPresent = restTemplate.getForObject("http://BS-USER-SERVICE:8080/userService/userVerification/" + token, UserResponse.class);
@@ -87,6 +111,12 @@ public class CartService implements ICartService {
         return null;
     }
 
+    /**
+     * Purpose : Implement the Logic of Get All Cart items for particular User
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param :  token
+     */
     @Override
     public List<CartServiceModel> getAllCartItemsForUser(String token) {
         UserResponse isUserPresent = restTemplate.getForObject("http://BS-USER-SERVICE:8080/userService/userVerification/" + token, UserResponse.class);
@@ -104,6 +134,12 @@ public class CartService implements ICartService {
         return null;
     }
 
+    /**
+     * Purpose : Implement the Logic of Get All Cart items
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param :
+     */
     @Override
     public List<CartServiceModel> getAllCartItems() {
         List<CartServiceModel> isCartPresent = cartServiceRepository.findAll();

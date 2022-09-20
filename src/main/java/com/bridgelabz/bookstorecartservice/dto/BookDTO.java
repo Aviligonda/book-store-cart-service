@@ -4,6 +4,12 @@ import lombok.Data;
 
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
+/**
+ * Purpose : BookDTO fields are Used Retrieve the data from Book service
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 @Data
 public class BookDTO {
     private Long id;

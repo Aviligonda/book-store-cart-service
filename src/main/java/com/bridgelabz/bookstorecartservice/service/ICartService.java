@@ -5,7 +5,12 @@ import com.bridgelabz.bookstorecartservice.model.CartServiceModel;
 import com.bridgelabz.bookstorecartservice.util.Response;
 
 import java.util.List;
-
+/**
+ * Purpose : ICartService to Show The all APIs
+ * Version : 1.0
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 public interface ICartService {
     Response addCart(String token, CartServiceDTO cartServiceDTO, Long bookId);
 
