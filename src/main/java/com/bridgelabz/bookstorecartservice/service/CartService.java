@@ -148,4 +148,19 @@ public class CartService implements ICartService {
         }
         throw new UserException(400, "Cart items Not found");
     }
+
+    /**
+     * Purpose : Implement the Logic of Verify the Cart item
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param : cartId
+     */
+    @Override
+    public Response verifyCartItem(Long cartId) {
+        Optional<CartServiceModel> isCartPresent = cartServiceRepository.findById(cartId);
+        if (isCartPresent.isPresent()) {
+            return new Response(200, "Cart item Found", isCartPresent.get());
+        }
+        throw new UserException(400, "No Cart item found with this id");
+    }
 }

@@ -38,6 +38,7 @@ public class CartServiceController {
         Response response = cartService.addCart(token, cartServiceDTO, bookId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     /**
      * Purpose :  Removing Cart
      *
@@ -50,6 +51,7 @@ public class CartServiceController {
         Response response = cartService.removingCart(token, cartId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     /**
      * Purpose : Update Quantity
      *
@@ -63,6 +65,7 @@ public class CartServiceController {
         Response response = cartService.updateQuantity(token, cartId, quantity);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     /**
      * Purpose :  Get all Cart items for particular user
      *
@@ -74,6 +77,7 @@ public class CartServiceController {
         List<CartServiceModel> response = cartService.getAllCartItemsForUser(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     /**
      * Purpose :  Get All Cart items
      *
@@ -84,6 +88,18 @@ public class CartServiceController {
     public ResponseEntity<List<?>> getAllCartItems() {
         List<CartServiceModel> response = cartService.getAllCartItems();
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Purpose :  Verify Cart Item
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param : cartId
+     */
+    @GetMapping("/verifyCartItem/{cartId}")
+    public Response verifyCartItem(@PathVariable Long cartId) {
+        return cartService.verifyCartItem(cartId);
+
     }
 
 }

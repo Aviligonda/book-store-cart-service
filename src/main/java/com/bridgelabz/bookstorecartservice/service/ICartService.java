@@ -21,4 +21,6 @@ public interface ICartService {
     List<CartServiceModel> getAllCartItemsForUser(String token);
 
     List<CartServiceModel> getAllCartItems();
+
+    Response verifyCartItem(Long cartId);
 }
