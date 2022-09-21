@@ -49,15 +49,14 @@ public class CartService implements ICartService {
                 cartServiceModel.setUserId(isUserPresent.getObject().getId());
                 if (isBookPresent.getObject().getBookQuantity() >= cartServiceDTO.getQuantity()) {
                     cartServiceModel.setQuantity(cartServiceDTO.getQuantity());
-                    long quantity = isBookPresent.getObject().getBookQuantity() - cartServiceModel.getQuantity();
-                    isBookPresent.getObject().setBookQuantity(quantity);
-
                 } else {
                     throw new UserException(400, cartServiceDTO.getQuantity() + " Books are not Availible ,Now only "
                             + isBookPresent.getObject().getBookQuantity() + " Books are Availible");
                 }
                 cartServiceModel.setTotalPrice((cartServiceDTO.getQuantity()) * (isBookPresent.getObject().getBookPrice()));
                 cartServiceRepository.save(cartServiceModel);
+                BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity/"
+                        + cartServiceDTO.getQuantity() + "/" + bookId, BookResponse.class);
                 return new Response(200, "Success", cartServiceModel);
             }
         }
@@ -78,6 +77,7 @@ public class CartService implements ICartService {
             if (isCartPresent.isPresent()) {
                 if (isCartPresent.get().getUserId() == isUserPresent.getObject().getId()) {
                     cartServiceRepository.delete(isCartPresent.get());
+                    BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity1/" + isCartPresent.get().getQuantity() + "/" + isCartPresent.get().getBookId(), BookResponse.class);
                     return new Response(200, "Success", isCartPresent.get());
                 }
                 throw new UserException(400, "No Cart Books found with this UserId");
@@ -102,10 +102,24 @@ public class CartService implements ICartService {
                 BookResponse isBookPresent = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/verifyBook/"
                         + isCartPresent.get().getBookId(), BookResponse.class);
                 if (isCartPresent.get().getUserId() == isUserPresent.getObject().getId()) {
-                    isCartPresent.get().setQuantity(quantity);
-                    isCartPresent.get().setTotalPrice((quantity) * (isBookPresent.getObject().getBookPrice()));
-                    cartServiceRepository.save(isCartPresent.get());
-                    return new Response(200, "Success", isCartPresent.get());
+                    if (isCartPresent.get().getQuantity() > quantity) {
+                        Long bookQuantity = isCartPresent.get().getQuantity() - quantity;
+                        isCartPresent.get().setQuantity(quantity);
+                        isCartPresent.get().setTotalPrice((quantity) * (isBookPresent.getObject().getBookPrice()));
+                        cartServiceRepository.save(isCartPresent.get());
+                        BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity1/"
+                                + bookQuantity + "/" + isCartPresent.get().getBookId(), BookResponse.class);
+                        return new Response(200, "Success", isCartPresent.get());
+                    } else {
+                        Long bookQuantity = quantity-isCartPresent.get().getQuantity();
+                        isCartPresent.get().setQuantity(quantity);
+                        isCartPresent.get().setTotalPrice((quantity) * (isBookPresent.getObject().getBookPrice()));
+                        cartServiceRepository.save(isCartPresent.get());
+                        BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity/"
+                                + bookQuantity+ "/" + isCartPresent.get().getBookId(), BookResponse.class);
+                        return new Response(200, "Success", isCartPresent.get());
+
+                    }
                 }
                 throw new UserException(400, "No Cart Books found with this UserId");
             }
