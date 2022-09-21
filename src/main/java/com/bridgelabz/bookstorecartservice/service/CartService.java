@@ -49,6 +49,9 @@ public class CartService implements ICartService {
                 cartServiceModel.setUserId(isUserPresent.getObject().getId());
                 if (isBookPresent.getObject().getBookQuantity() >= cartServiceDTO.getQuantity()) {
                     cartServiceModel.setQuantity(cartServiceDTO.getQuantity());
+                    long quantity = isBookPresent.getObject().getBookQuantity() - cartServiceModel.getQuantity();
+                    isBookPresent.getObject().setBookQuantity(quantity);
+
                 } else {
                     throw new UserException(400, cartServiceDTO.getQuantity() + " Books are not Availible ,Now only "
                             + isBookPresent.getObject().getBookQuantity() + " Books are Availible");
@@ -121,17 +124,13 @@ public class CartService implements ICartService {
     public List<CartServiceModel> getAllCartItemsForUser(String token) {
         UserResponse isUserPresent = restTemplate.getForObject("http://BS-USER-SERVICE:8080/userService/userVerification/" + token, UserResponse.class);
         if (isUserPresent.getStatusCode() == 200) {
-            Optional<CartServiceModel> isUserIdPresent = cartServiceRepository.findByUserId(isUserPresent.getObject().getId());
-            if (isUserIdPresent.isPresent()) {
-                List<CartServiceModel> isCartPresent = cartServiceRepository.findAll();
-                if (isCartPresent.size() > 0) {
-                    return isCartPresent;
-                }
-                throw new UserException(400, "Cart items Not found");
+            List<CartServiceModel> isCartPresent = cartServiceRepository.findByUserId(isUserPresent.getObject().getId());
+            if (isCartPresent.size() > 0) {
+                return isCartPresent;
             }
-            throw new UserException(400, "No Cart items Found with this UserId");
+            throw new UserException(400, "Cart items Not found");
         }
-        return null;
+        throw new UserException(400, "No Cart items Found with this UserId");
     }
 
     /**
@@ -163,4 +162,5 @@ public class CartService implements ICartService {
         }
         throw new UserException(400, "No Cart item found with this id");
     }
+
 }

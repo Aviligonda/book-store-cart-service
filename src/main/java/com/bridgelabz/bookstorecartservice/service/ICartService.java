@@ -23,4 +23,5 @@ public interface ICartService {
     List<CartServiceModel> getAllCartItems();
 
     Response verifyCartItem(Long cartId);
+
 }
