@@ -111,12 +111,12 @@ public class CartService implements ICartService {
                                 + bookQuantity + "/" + isCartPresent.get().getBookId(), BookResponse.class);
                         return new Response(200, "Success", isCartPresent.get());
                     } else {
-                        Long bookQuantity = quantity-isCartPresent.get().getQuantity();
+                        Long bookQuantity = quantity - isCartPresent.get().getQuantity();
                         isCartPresent.get().setQuantity(quantity);
                         isCartPresent.get().setTotalPrice((quantity) * (isBookPresent.getObject().getBookPrice()));
                         cartServiceRepository.save(isCartPresent.get());
                         BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity/"
-                                + bookQuantity+ "/" + isCartPresent.get().getBookId(), BookResponse.class);
+                                + bookQuantity + "/" + isCartPresent.get().getBookId(), BookResponse.class);
                         return new Response(200, "Success", isCartPresent.get());
 
                     }
@@ -173,6 +173,22 @@ public class CartService implements ICartService {
         Optional<CartServiceModel> isCartPresent = cartServiceRepository.findById(cartId);
         if (isCartPresent.isPresent()) {
             return new Response(200, "Cart item Found", isCartPresent.get());
+        }
+        throw new UserException(400, "No Cart item found with this id");
+    }
+
+    /**
+     * Purpose : Implement the Logic of Delete Cart item when place order
+     *
+     * @author : Aviligonda Sreenivasulu
+     * @Param : cartId
+     */
+    @Override
+    public Response deleteCartItem(Long cartId) {
+        Optional<CartServiceModel> isCartPresent = cartServiceRepository.findById(cartId);
+        if (isCartPresent.isPresent()) {
+            cartServiceRepository.delete(isCartPresent.get());
+            return new Response(200, "Success", isCartPresent.get());
         }
         throw new UserException(400, "No Cart item found with this id");
     }
