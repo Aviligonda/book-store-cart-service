@@ -24,5 +24,4 @@ public interface ICartService {
 
     Response verifyCartItem(Long cartId);
 
-    Response deleteCartItem(Long cartId);
 }

@@ -55,8 +55,6 @@ public class CartService implements ICartService {
                 }
                 cartServiceModel.setTotalPrice((cartServiceDTO.getQuantity()) * (isBookPresent.getObject().getBookPrice()));
                 cartServiceRepository.save(cartServiceModel);
-                BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity/"
-                        + cartServiceDTO.getQuantity() + "/" + bookId, BookResponse.class);
                 return new Response(200, "Success", cartServiceModel);
             }
         }
@@ -77,7 +75,6 @@ public class CartService implements ICartService {
             if (isCartPresent.isPresent()) {
                 if (isCartPresent.get().getUserId() == isUserPresent.getObject().getId()) {
                     cartServiceRepository.delete(isCartPresent.get());
-                    BookResponse updateBookQuantity = restTemplate.getForObject("http://BS-BOOK-SERVICE:8081/bookService/changeBookQuantity1/" + isCartPresent.get().getQuantity() + "/" + isCartPresent.get().getBookId(), BookResponse.class);
                     return new Response(200, "Success", isCartPresent.get());
                 }
                 throw new UserException(400, "No Cart Books found with this UserId");
@@ -173,22 +170,6 @@ public class CartService implements ICartService {
         Optional<CartServiceModel> isCartPresent = cartServiceRepository.findById(cartId);
         if (isCartPresent.isPresent()) {
             return new Response(200, "Cart item Found", isCartPresent.get());
-        }
-        throw new UserException(400, "No Cart item found with this id");
-    }
-
-    /**
-     * Purpose : Implement the Logic of Delete Cart item when place order
-     *
-     * @author : Aviligonda Sreenivasulu
-     * @Param : cartId
-     */
-    @Override
-    public Response deleteCartItem(Long cartId) {
-        Optional<CartServiceModel> isCartPresent = cartServiceRepository.findById(cartId);
-        if (isCartPresent.isPresent()) {
-            cartServiceRepository.delete(isCartPresent.get());
-            return new Response(200, "Success", isCartPresent.get());
         }
         throw new UserException(400, "No Cart item found with this id");
     }

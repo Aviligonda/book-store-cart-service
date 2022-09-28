@@ -99,16 +99,6 @@ public class CartServiceController {
     @GetMapping("/verifyCartItem/{cartId}")
     public Response verifyCartItem(@PathVariable Long cartId) {
         return cartService.verifyCartItem(cartId);
+    }
 
-    }
-    /**
-     * Purpose :  Delete Cart Item when place Order
-     *
-     * @author : Aviligonda Sreenivasulu
-     * @Param : cartId
-     */
-    @GetMapping("/deleteCartItem/{cartId}")
-    public Response deleteCartItem(@PathVariable Long cartId){
-        return cartService.deleteCartItem(cartId);
-    }
 }
